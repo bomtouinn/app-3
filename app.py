@@ -9,7 +9,7 @@ def index():
 def entreprise():
     if request.method == 'POST':
         return redirect(url_for('index'))
-    return render_template('entreprise_form.html')
+    return render_template('form_entreprise.html')
 
 @app.route('/etudiant', methods=['GET', 'POST'])
 def etudiant():
