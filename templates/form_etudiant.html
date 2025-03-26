@@ -20,10 +20,18 @@
         <input type="number" id="promotion" name="promotion" required><br><br>
 
         <label for="entreprise">Entreprise Actuelle :</label>
-        <input type="text" id="entreprise" name="entreprise"><br><br>
+        <select id="entreprise" name="entreprise" required>
+            <option value="">Sélectionnez une entreprise</option>
+            {% for nom, infos in entreprises.items() %}
+            <option value="{{ nom }}">{{ nom }}</option>
+            {% endfor %}
+        </select><br><br>
 
         <button type="submit">Envoyer</button>
     </form>
+    
+    <br>
+    <a href="/">Retour à l'accueil</a>
 </body>
 
 </html>

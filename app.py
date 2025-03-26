@@ -33,7 +33,9 @@ def etudiant():
 
         return redirect(url_for('index'))
 
-    return render_template('form_etudiant.html')
+    # Récupérer la liste des entreprises pour le formulaire
+    entreprises = dictionnaire_global.get_entreprises()
+    return render_template('form_etudiant.html', entreprises=entreprises)
 
 @app.route('/liste-entreprises')
 def liste_entreprises():
