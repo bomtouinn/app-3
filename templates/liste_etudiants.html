@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Liste des étudiants</title>
+</head>
+<body>
+    <h1>Liste des étudiants</h1>
+    
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Nom</th>
+                <th>Prénom</th>
+                <th>Promotion</th>
+                <th>Entreprise</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for nom, infos in etudiants.items() %}
+            <tr>
+                <td>{{ infos.nom }}</td>
+                <td>{{ infos.prenom }}</td>
+                <td>{{ infos.promotion }}</td>
+                <td>{{ infos.entreprise }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    
+    <br>
+    <a href="/">Retour à l'accueil</a>
+</body>
+</html>

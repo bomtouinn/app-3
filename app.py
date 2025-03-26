@@ -37,11 +37,13 @@ def etudiant():
 
 @app.route('/liste-entreprises')
 def liste_entreprises():
-    return dictionnaire_global.get_entreprises()
+    entreprises = dictionnaire_global.get_entreprises()
+    return render_template('liste_entreprises.html', entreprises=entreprises)
 
 @app.route('/liste-etudiants')
 def liste_etudiants():
-    return dictionnaire_global.get_etudiants()
+    etudiants = dictionnaire_global.get_etudiants()
+    return render_template('liste_etudiants.html', etudiants=etudiants)
 
 if __name__ == '__main__':
     app.run(debug=True)
