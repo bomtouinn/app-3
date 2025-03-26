@@ -37,15 +37,24 @@ def etudiant():
     entreprises = dictionnaire_global.get_entreprises()
     return render_template('form_etudiant.html', entreprises=entreprises)
 
+
+
 @app.route('/liste-entreprises')
 def liste_entreprises():
     entreprises = dictionnaire_global.get_entreprises()
     return render_template('liste_entreprises.html', entreprises=entreprises)
+    
 
 @app.route('/liste-etudiants')
 def liste_etudiants():
     etudiants = dictionnaire_global.get_etudiants()
     return render_template('liste_etudiants.html', etudiants=etudiants)
+
+@app.route('/suivi')
+def suivi():
+    entreprises = dictionnaire_global.get_entreprises()
+    etudiants = dictionnaire_global.get_etudiants()
+    return render_template('form_suivi.html', entreprises=entreprises, etudiants=etudiants)
 
 if __name__ == '__main__':
     app.run(debug=True)
