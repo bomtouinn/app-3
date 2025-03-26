@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulaire de Suivi</title>
+</head>
+<body>
+
+    <h2>Formulaire de Suivi</h2>
+
+    <form action="#" method="post">
+        
+        <!-- 1. Informations Générales -->
+        <h3>1. Informations Générales</h3>
+        
+        <label>Type de suivi :</label><br>
+        <input type="radio" name="type_suivi" value="entreprise" required onclick="toggleFields()"> Entreprise partenaire
+        <input type="radio" name="type_suivi" value="etudiant" required onclick="toggleFields()"> Ancien étudiant
+        <br><br>
+
+        <div id="entreprise_field" style="display:none;">
+            <label for="entreprise">Nom Entreprise</label>
+            <select id="entreprise" name="entreprise">
+            <option value="">Sélectionnez une entreprise</option>
+            {% for nom, infos in entreprises.items() %}
+            <option value="{{ nom }}">{{ nom }}</option>
+            {% endfor %}
+            </select><br><br>
+        </div>
+
+        <div id="etudiant_field" style="display:none;">
+            <label for="etudiant">Nom Étudiant</label>
+            <select id="etudiant" name="etudiant">
+            <option value="">Sélectionnez un étudiant</option>
+            {% for nom, infos in etudiants.items() %}
+            <option value="{{ nom }}">{{ nom }}</option>
+            {% endfor %}
+            </select><br><br>
+        </div>
+
+        <script>
+            function toggleFields() {
+            var entrepriseField = document.getElementById('entreprise_field');
+            var etudiantField = document.getElementById('etudiant_field');
+            var typeSuivi = document.querySelector('input[name="type_suivi"]:checked').value;
+
+            if (typeSuivi === 'entreprise') {
+                entrepriseField.style.display = 'block';
+                etudiantField.style.display = 'none';
+            } else if (typeSuivi === 'etudiant') {
+                entrepriseField.style.display = 'none';
+                etudiantField.style.display = 'block';
+            }
+            }
+        </script>
+
+        <label for="date_suivi">Date du suivi :</label>
+        <input type="date" id="date_suivi" name="date_suivi" required>
+        <br><br>
+
+        <label for="suivi_par">Personne ayant effectué le suivi :</label>
+        <input type="text" id="suivi_par" name="suivi_par" required>
+        <br><br>
+
+        <!-- 2. Détails du Suivi -->
+        <h3>2. Détails du Suivi</h3>
+
+        <label for="objet_suivi">Objet du suivi :</label>
+        <input type="text" id="objet_suivi" name="objet_suivi" required>
+        <br><br>
+
+        <label for="canal">Canal de communication :</label>
+        <select id="canal" name="canal" required>
+            <option value="">-- Sélectionnez --</option>
+            <option value="email">Email</option>
+            <option value="telephone">Téléphone</option>
+            <option value="visite">Visite</option>
+            <option value="reunion">Réunion</option>
+            <option value="autre">Autre</option>
+        </select>
+        <br><br>
+
+        <label for="resume">Résumé de l’échange :</label><br>
+        <textarea id="resume" name="resume" rows="4" required></textarea>
+        <br><br>
+
+        <label for="actions">Actions à entreprendre :</label>
+        <input type="text" id="actions" name="actions">
+        <br><br>
+
+        <button type="submit">Enregistrer le suivi</button>
+    </form>
+
+</body>
+</html>
