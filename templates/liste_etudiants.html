@@ -15,15 +15,19 @@
                 <th>Prénom</th>
                 <th>Promotion</th>
                 <th>Entreprise</th>
+                <th>Date de début</th>
+                <th>Date de fin</th>
             </tr>
         </thead>
         <tbody>
             {% for nom, infos in etudiants.items() %}
             <tr>
                 <td>{{ nom }}</td>
-                <td>{{ infos.prenom }}</td>
-                <td>{{ infos.promotion }}</td>
-                <td>{{ infos.entreprise }}</td>
+                <td>{{ infos.prenom or '' }}</td>
+                <td>{{ infos.promotion or '' }}</td>
+                <td>{{ infos.entreprise or '' }}</td>
+                <td>{{ infos.date_debut or '' }}</td>
+                <td>{{ infos.date_fin or '' }}</td>
             </tr>
             {% endfor %}
         </tbody>
