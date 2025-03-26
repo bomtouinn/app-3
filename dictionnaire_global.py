@@ -16,14 +16,31 @@ def charger_donnees():
     if os.path.exists(ENTREPRISES_CSV):
         try:
             df_entreprises = pd.read_csv(ENTREPRISES_CSV)
-            entreprises = df_entreprises.set_index('nom').to_dict('index')
+            # Créons le dictionnaire en ajoutant explicitement le nom dans chaque entrée
+            entreprises = {}
+            for index, row in df_entreprises.iterrows():
+                nom = row['nom']
+                entreprises[nom] = {
+                    'nom': nom,
+                    'adresse': row['adresse'],
+                    'email': row['email'],
+                    'telephone': row['telephone']
+                }
         except:
             entreprises = {}
     
     if os.path.exists(ETUDIANTS_CSV):
         try:
             df_etudiants = pd.read_csv(ETUDIANTS_CSV)
-            etudiants = df_etudiants.set_index('nom').to_dict('index')
+            etudiants = {}
+            for index, row in df_etudiants.iterrows():
+                nom = row['nom']
+                etudiants[nom] = {
+                    'nom': nom,
+                    'prenom': row['prenom'],
+                    'promotion': row['promotion'],
+                    'entreprise': row['entreprise']
+                }
         except:
             etudiants = {}
 
