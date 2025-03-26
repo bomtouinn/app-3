@@ -4,63 +4,95 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Formulaire de Suivi</title>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const etudiantSelect = document.getElementById('etudiant');
+            const entrepriseDisplay = document.getElementById('entreprise_display');
+            const entrepriseInput = document.getElementById('entreprise_associee');
+            const dateInput = document.getElementById('date_suivi');
+            
+            // Préremplir la date avec la date du jour
+            const aujourdhui = new Date();
+            const year = aujourdhui.getFullYear();
+            const month = String(aujourdhui.getMonth() + 1).padStart(2, '0');
+            const day = String(aujourdhui.getDate()).padStart(2, '0');
+            const dateStr = `${year}-${month}-${day}`;
+            dateInput.value = dateStr;
+            
+            // Données des étudiants avec leurs entreprises
+            const etudiantEntreprises = {
+                {% for nom, infos in etudiants.items() %}
+                "{{ nom }}": "{{ infos.entreprise }}",
+                {% endfor %}
+            };
+            
+            // Mettre à jour l'entreprise quand l'étudiant change
+            etudiantSelect.addEventListener('change', function() {
+                const selectedEtudiant = etudiantSelect.value;
+                if (selectedEtudiant) {
+                    const entreprise = etudiantEntreprises[selectedEtudiant];
+                    if (entreprise) {
+                        entrepriseDisplay.textContent = entreprise;
+                        entrepriseInput.value = entreprise;
+                    } else {
+                        entrepriseDisplay.textContent = "Aucune entreprise associée";
+                        entrepriseInput.value = "";
+                    }
+                } else {
+                    entrepriseDisplay.textContent = "";
+                    entrepriseInput.value = "";
+                }
+            });
+        });
+    </script>
 </head>
 <body>
 
-    <h2>Formulaire de Suivi</h2>
+    <h2>Formulaire de Suivi des Anciens Étudiants</h2>
 
     <form action="#" method="post">
         
         <!-- 1. Informations Générales -->
         <h3>1. Informations Générales</h3>
         
-        <label>Type de suivi :</label><br>
-        <input type="radio" name="type_suivi" value="entreprise" required onclick="toggleFields()"> Entreprise partenaire
-        <input type="radio" name="type_suivi" value="etudiant" required onclick="toggleFields()"> Ancien étudiant
-        <br><br>
-
-        <div id="entreprise_field" style="display:none;">
-            <label for="entreprise">Nom Entreprise</label>
-            <select id="entreprise" name="entreprise">
-            <option value="">Sélectionnez une entreprise</option>
-            {% for nom, infos in entreprises.items() %}
-            <option value="{{ nom }}">{{ nom }}</option>
-            {% endfor %}
-            </select><br><br>
-        </div>
-
-        <div id="etudiant_field" style="display:none;">
-            <label for="etudiant">Nom Étudiant</label>
-            <select id="etudiant" name="etudiant">
+        <label for="etudiant">Ancien Étudiant :</label>
+        <select id="etudiant" name="etudiant" required>
             <option value="">Sélectionnez un étudiant</option>
             {% for nom, infos in etudiants.items() %}
-            <option value="{{ nom }}">{{ nom }}</option>
+            <option value="{{ nom }}">{{ nom }} - {{ infos.prenom }}</option>
             {% endfor %}
-            </select><br><br>
-        </div>
-
-        <script>
-            function toggleFields() {
-            var entrepriseField = document.getElementById('entreprise_field');
-            var etudiantField = document.getElementById('etudiant_field');
-            var typeSuivi = document.querySelector('input[name="type_suivi"]:checked').value;
-
-            if (typeSuivi === 'entreprise') {
-                entrepriseField.style.display = 'block';
-                etudiantField.style.display = 'none';
-            } else if (typeSuivi === 'etudiant') {
-                entrepriseField.style.display = 'none';
-                etudiantField.style.display = 'block';
-            }
-            }
-        </script>
+        </select><br><br>
+        
+        <!-- Entreprise associée (affichage seulement) -->
+        <label>Entreprise associée :</label>
+        <span id="entreprise_display"></span>
+        <input type="hidden" id="entreprise_associee" name="entreprise_associee">
+        <br><br>
+        
+        <!-- Nature de la relation -->
+        <label for="nature_relation">Nature de la relation :</label>
+        <select id="nature_relation" name="nature_relation">
+            <option value="">Sélectionnez</option>
+            <option value="stagiaire">Stagiaire</option>
+            <option value="salarie">Salarié</option>
+            <option value="ancien_salarie">Ancien salarié</option>
+            <option value="alternant">Alternant</option>
+            <option value="freelance">Freelance</option>
+            <option value="autre">Autre</option>
+        </select>
+        <br><br>
 
         <label for="date_suivi">Date du suivi :</label>
         <input type="date" id="date_suivi" name="date_suivi" required>
         <br><br>
 
         <label for="suivi_par">Personne ayant effectué le suivi :</label>
-        <input type="text" id="suivi_par" name="suivi_par" required>
+        <select id="suivi_par" name="suivi_par" required>
+            <option value="">-- Sélectionnez --</option>
+            <option value="Vincent Vanneste">Vincent Vanneste</option>
+            <option value="Sophie Deleglise">Sophie Deleglise</option>
+            <option value="Guillaume Caffier">Guillaume Caffier</option>
+        </select>
         <br><br>
 
         <!-- 2. Détails du Suivi -->
@@ -81,7 +113,7 @@
         </select>
         <br><br>
 
-        <label for="resume">Résumé de l’échange :</label><br>
+        <label for="resume">Résumé de l'échange :</label><br>
         <textarea id="resume" name="resume" rows="4" required></textarea>
         <br><br>
 

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Liste des Suivis</title>
+</head>
+<body>
+    <h1>Liste des Suivis d'Anciens Étudiants</h1>
+    
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Étudiant</th>
+                <th>Entreprise associée</th>
+                <th>Nature relation</th>
+                <th>Date du suivi</th>
+                <th>Suivi par</th>
+                <th>Objet du suivi</th>
+                <th>Canal</th>
+                <th>Résumé</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for suivi in suivi_data %}
+            <tr>
+                <td>{{ suivi.etudiant }}</td>
+                <td>{{ suivi.entreprise_associee }}</td>
+                <td>{{ suivi.nature_relation }}</td>
+                <td>{{ suivi.date_suivi }}</td>
+                <td>{{ suivi.suivi_par }}</td>
+                <td>{{ suivi.objet_suivi }}</td>
+                <td>{{ suivi.canal }}</td>
+                <td>{{ suivi.resume }}</td>
+                <td>{{ suivi.actions }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    
+    <br>
+    <a href="/">Retour à l'accueil</a>
+</body>
+</html>
