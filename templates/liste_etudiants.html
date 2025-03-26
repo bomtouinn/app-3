@@ -13,6 +13,9 @@
             <tr>
                 <th>Nom</th>
                 <th>Prénom</th>
+                <th>Adresse</th>
+                <th>Email</th>
+                <th>Téléphone</th>
                 <th>Promotion</th>
                 <th>Entreprise</th>
                 <th>Date de début</th>
@@ -24,6 +27,9 @@
             <tr>
                 <td>{{ nom }}</td>
                 <td>{{ infos.prenom or '' }}</td>
+                <td>{{ infos.address or '' }}</td>
+                <td>{{ infos.email or '' }}</td>
+                <td>{{ infos.phone or '' }}</td>
                 <td>{{ infos.promotion or '' }}</td>
                 <td>{{ infos.entreprise or '' }}</td>
                 <td>{{ infos.date_debut or '' }}</td>

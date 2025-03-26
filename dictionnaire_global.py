@@ -37,6 +37,9 @@ def charger_donnees():
                 etudiant_info = {
                     'nom': nom,
                     'prenom': row['prenom'],
+                    'address': row['address'],
+                    'email': row['email'],
+                    'phone': row['phone'],
                     'promotion': row['promotion'],
                     'entreprise': row['entreprise'],
                     'date_debut': row['date_debut'] if 'date_debut' in row and pd.notna(row['date_debut']) else "",
@@ -65,10 +68,13 @@ def get_entreprises():
 
 # ///////////////////////////////////////////////////////////////////
 
-def ajouter_etudiant(nom, prenom, promotion, entreprise, date_debut="", date_fin=""):
+def ajouter_etudiant(nom, prenom, address, email, phone, promotion, entreprise, date_debut="", date_fin=""):
     etudiant_info = {
         'nom': nom,
         'prenom': prenom,
+        'address': address,
+        'email': email,
+        'phone': phone,
         'promotion': promotion,
         'entreprise': entreprise,
         'date_debut': date_debut,

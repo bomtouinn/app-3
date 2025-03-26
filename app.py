@@ -26,13 +26,16 @@ def etudiant():
     if request.method == 'POST':
         nom = request.form.get('nom')
         prenom = request.form.get('prenom')
+        address = request.form.get('address')
+        email = request.form.get('email')
+        phone = request.form.get('phone')
         promotion = request.form.get('promotion')
         entreprise = request.form.get('entreprise')
         date_debut = request.form.get('date_debut')
         date_fin = request.form.get('date_fin')
 
         dictionnaire_global.ajouter_etudiant(
-            nom, prenom, promotion, entreprise, date_debut, date_fin
+            nom, prenom, address, email, phone, promotion, entreprise, date_debut, date_fin
         )
 
         return redirect(url_for('index'))
@@ -40,8 +43,6 @@ def etudiant():
     # Récupérer la liste des entreprises pour le formulaire
     entreprises = dictionnaire_global.get_entreprises()
     return render_template('form_etudiant.html', entreprises=entreprises)
-
-
 
 @app.route('/liste-entreprises')
 def liste_entreprises():

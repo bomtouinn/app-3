@@ -1,7 +1,7 @@
-nom,prenom,promotion,entreprise,date_debut,date_fin
+nom,prenom,address,email,phone,promotion,entreprise,date_debut,date_fin
 
-lihohj,pjsliha,2515,Opale CE,2020-02-01,2021-03-02
-Descharles,Zoé,2024,Opale Web,2024-09-01,2025-09-01
-Bouin,Tom,2025,Communauté de Communes Pays d'Opale,2024-09-02,2025-09-02
-Brioul,Juliette,2025,Espace Learning Pro,2024-09-03,2025-09-03
-Outerryck,Angel,2025,Opale Web,2024-03-26,2025-03-26
+lihohj,pjsliha,123 Main St,lihohj@example.com,1234567890,2515,Opale CE,2020-02-01,2021-03-02
+Descharles,Zoé,456 Elm St,zoe@example.com,0987654321,2024,Opale Web,2024-09-01,2025-09-01
+Bouin,Tom,789 Oak St,tom@example.com,1122334455,2025,Communauté de Communes Pays d'Opale,2024-09-02,2025-09-02
+Brioul,Juliette,101 Pine St,juliette@example.com,2233445566,2025,Espace Learning Pro,2024-09-03,2025-09-03
+Outerryck,Angel,202 Maple St,angel@example.com,3344556677,2025,Opale Web,2024-03-26,2025-03-26
