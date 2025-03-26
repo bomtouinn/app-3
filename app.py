@@ -28,8 +28,12 @@ def etudiant():
         prenom = request.form.get('prenom')
         promotion = request.form.get('promotion')
         entreprise = request.form.get('entreprise')
+        date_debut = request.form.get('date_debut')
+        date_fin = request.form.get('date_fin')
 
-        dictionnaire_global.ajouter_etudiant(nom, prenom, promotion, entreprise)
+        dictionnaire_global.ajouter_etudiant(
+            nom, prenom, promotion, entreprise, date_debut, date_fin
+        )
 
         return redirect(url_for('index'))
 

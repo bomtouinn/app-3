@@ -16,7 +16,6 @@ def charger_donnees():
     if os.path.exists(ENTREPRISES_CSV):
         try:
             df_entreprises = pd.read_csv(ENTREPRISES_CSV)
-            # Créons le dictionnaire en ajoutant explicitement le nom dans chaque entrée
             entreprises = {}
             for index, row in df_entreprises.iterrows():
                 nom = row['nom']
@@ -35,13 +34,17 @@ def charger_donnees():
             etudiants = {}
             for index, row in df_etudiants.iterrows():
                 nom = row['nom']
-                etudiants[nom] = {
+                etudiant_info = {
                     'nom': nom,
                     'prenom': row['prenom'],
                     'promotion': row['promotion'],
-                    'entreprise': row['entreprise']
+                    'entreprise': row['entreprise'],
+                    'date_debut': row['date_debut'] if 'date_debut' in row and pd.notna(row['date_debut']) else "",
+                    'date_fin': row['date_fin'] if 'date_fin' in row and pd.notna(row['date_fin']) else ""
                 }
-        except:
+                etudiants[nom] = etudiant_info
+        except Exception as e:
+            print(f"Erreur lors du chargement des étudiants: {e}")
             etudiants = {}
 
 def ajouter_entreprise(nom, adresse, email, telephone):
@@ -62,12 +65,14 @@ def get_entreprises():
 
 # ///////////////////////////////////////////////////////////////////
 
-def ajouter_etudiant(nom, prenom, promotion, entreprise):
+def ajouter_etudiant(nom, prenom, promotion, entreprise, date_debut="", date_fin=""):
     etudiant_info = {
         'nom': nom,
         'prenom': prenom,
         'promotion': promotion,
-        'entreprise': entreprise
+        'entreprise': entreprise,
+        'date_debut': date_debut,
+        'date_fin': date_fin
     }
     etudiants[nom] = etudiant_info
     
