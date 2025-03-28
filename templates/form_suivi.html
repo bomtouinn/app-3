@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Formulaire de Suivi</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='form.css') }}">
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             // Préremplir la date du jour
@@ -19,11 +20,10 @@
 </head>
 <body>
 
-    <h2>Formulaire de Suivi des Étudiants en Entreprise</h2>
-
     <form action="#" method="post">
         
-        <h3>Informations de Placement</h3>
+        <h1>Formulaire de Suivi</h1>
+        <br>
         
         <label for="entreprise">Entreprise :</label>
         <select id="entreprise" name="entreprise" required>
@@ -65,8 +65,11 @@
         <br><br>
 
         <button type="submit">Enregistrer le suivi</button>
+        <div style="text-align: center;">
+            <a href="/">Annuler</a>
+        </div>
     </form>
 <br>
-    <a href="/">Retour à l'accueil</a>
+    
 </body>
 </html>

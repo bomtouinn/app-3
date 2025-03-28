@@ -5,11 +5,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Formulaire Étudiant</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='form.css') }}">
 </head>
 
 <body>
-    <h1>Formulaire Étudiant</h1>
     <form method="post">
+        <h1>Formulaire Étudiant</h1>
+        <br>
         <label for="nom">Nom :</label>
         <input type="text" id="nom" name="nom" required><br><br>
 
@@ -20,6 +22,9 @@
         <input type="number" id="promotion" name="promotion" required><br><br>
 
         <button type="submit">Envoyer</button>
+        <div style="text-align: center;">
+            <a href="/">Annuler</a>
+        </div>
     </form>
 </body>
 
