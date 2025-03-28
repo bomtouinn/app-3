@@ -1,16 +1,45 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, flash
 import dictionnaire_global
 import csv
 import os
+
 import uuid
 
+from flask_login import LoginManager, UserMixin, login_user, logout_user, login_required, current_user
+
 app = Flask(__name__)
+app.secret_key = 'votre_cle_secrete'  # Changez cette clé pour sécuriser les sessions
+
+# Configuration de Flask-Login
+login_manager = LoginManager()
+login_manager.init_app(app)
+login_manager.login_view = 'login'  # Redirige les utilisateurs non connectés vers la page de connexion
+
+# Exemple d'utilisateur (vous pouvez remplacer cela par une base de données)
+class User(UserMixin):
+    def __init__(self, id, username, password):
+        self.id = id
+        self.username = username
+        self.password = password
+
+# Liste des utilisateurs (à remplacer par une base de données)
+users = {
+    "admin": User(id=1, username="admin", password="password123")
+}
+
+@login_manager.user_loader
+def load_user(user_id):
+    for user in users.values():
+        if user.id == int(user_id):
+            return user
+    return None
 
 @app.route('/')
 def index():
     return render_template('index.html')
 
 @app.route('/entreprise', methods=['GET', 'POST'])
+@login_required
 def entreprise():
     if request.method == 'POST':
         nom = request.form.get('name')
@@ -25,6 +54,7 @@ def entreprise():
     return render_template('form_entreprise.html')
 
 @app.route('/etudiant', methods=['GET', 'POST'])
+@login_required
 def etudiant():
     if request.method == 'POST':
         nom = request.form.get('nom')
@@ -46,7 +76,7 @@ def etudiant():
 def liste_entreprises():
     entreprises = dictionnaire_global.get_entreprises()
     return render_template('liste_entreprises.html', entreprises=entreprises)
-    
+
 @app.route('/liste-etudiants')
 def liste_etudiants():
     etudiants = dictionnaire_global.get_etudiants()
@@ -88,6 +118,7 @@ def sauvegarder_suivi():
         writer.writerows(filtered_data)
 
 @app.route('/suivi', methods=['GET', 'POST'])
+@login_required
 def suivi():
     if request.method == 'POST':
         entreprise = request.form.get('entreprise', '')
@@ -116,6 +147,80 @@ def suivi():
 def liste_suivi():
     return render_template('liste_suivi.html', suivi_data=suivi_data)
 
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        username = request.form.get('username')
+        password = request.form.get('password')
+
+        # Vérification des identifiants
+        user = next((u for u in users.values() if u.username == username and u.password == password), None)
+        if user:
+            login_user(user)
+            flash('Connexion réussie.', 'success')
+            return redirect(url_for('index'))
+        else:
+            flash('Identifiants invalides.', 'danger')
+
+    return render_template('login.html')
+
+@app.route('/logout')
+@login_required
+def logout():
+    logout_user()
+    flash('Vous avez été déconnecté.', 'info')
+    return redirect(url_for('login'))
+
+USERS_CSV = 'users.csv'
+
+def charger_utilisateurs():
+    global users
+    if os.path.exists(USERS_CSV):
+        with open(USERS_CSV, mode='r', newline='', encoding='utf-8') as file:
+            reader = csv.DictReader(file)
+            for row in reader:
+                user = User(id=int(row['id']), username=row['username'], password=row['password'])
+                users[row['username']] = user
+
+def sauvegarder_utilisateur(user):
+    with open(USERS_CSV, mode='a', newline='', encoding='utf-8') as file:
+        writer = csv.DictWriter(file, fieldnames=['id', 'username', 'password'])
+        if file.tell() == 0:  # Si le fichier est vide, écrire l'en-tête
+            writer.writeheader()
+        writer.writerow({'id': user.id, 'username': user.username, 'password': user.password})
+
+@app.route('/register', methods=['GET', 'POST'])
+def register():
+    if request.method == 'POST':
+        username = request.form.get('username')
+        password = request.form.get('password')
+
+        # Vérifier si l'utilisateur existe déjà
+        if username in users:
+            flash('Nom d\'utilisateur déjà pris.', 'danger')
+            return redirect(url_for('register'))
+
+        # Créer un nouvel utilisateur
+        new_id = max([user.id for user in users.values()] or [0]) + 1
+        new_user = User(id=new_id, username=username, password=password)
+        users[username] = new_user
+
+        # Sauvegarder dans le fichier CSV
+        sauvegarder_utilisateur(new_user)
+
+        flash('Inscription réussie. Vous pouvez maintenant vous connecter.', 'success')
+        return redirect(url_for('login'))
+
+    return render_template('register.html')
+
 if __name__ == '__main__':
+    charger_utilisateurs()
     charger_suivi()
     app.run(debug=True)
+
+@app.route('/logout')
+@login_required
+def logout():
+    logout_user()
+    flash('Vous avez été déconnecté.', 'info')
+    return redirect(url_for('login'))
