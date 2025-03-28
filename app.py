@@ -39,7 +39,18 @@ def load_user(user_id):
 def index():
     entreprises = dictionnaire_global.get_entreprises()
     etudiants = dictionnaire_global.get_etudiants()
-    return render_template('index.html', entreprises=entreprises, etudiants=etudiants, suivi_data=suivi_data)
+    # S'assurer que les données de suivi sont chargées
+    charger_suivi()
+    # Organiser les suivis par entreprise pour faciliter l'affichage
+    suivis_par_entreprise = {}
+    for suivi in suivi_data:
+        entreprise = suivi['entreprise']
+        if entreprise not in suivis_par_entreprise:
+            suivis_par_entreprise[entreprise] = []
+        suivis_par_entreprise[entreprise].append(suivi)
+    
+    return render_template('index.html', entreprises=entreprises, etudiants=etudiants, 
+                          suivi_data=suivi_data, suivis_par_entreprise=suivis_par_entreprise)
 
 @app.route('/entreprise', methods=['GET', 'POST'])
 @login_required
@@ -280,4 +291,4 @@ if __name__ == '__main__':
     context = ('local.crt', 'local.key')
     charger_utilisateurs()
     charger_suivi()
-    app.run(debug=True, ssl_context=('cert.pem','key.pem'))  
+    app.run(debug=True, ssl_context=('cert.pem','key.pem'))
