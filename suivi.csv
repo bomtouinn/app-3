@@ -1,2 +1,6 @@
-etudiant,entreprise_associee,nature_relation,date_suivi,suivi_par,objet_suivi,canal,resume,actions
-Brioul,Espace Learning Pro,alternant,2025-03-26,Vincent Vanneste,Rupture de contrat,telephone,"Ludovic est, je cite : ""un connard"".",Termination du contrat
+entreprise,etudiant,type_contrat,date_embauche,detail_missions
+,Brioul,,,
+Opale Web,Brioul,stage,2025-03-26,lkjfe
+Opale Web,Bouin,stage,2025-03-26,developpeur web
+Espace Learning Pro,Bouin,stage,2025-03-28,developpeur web
+Théâtre La Barcarolle,Outerryck,stage,2025-03-28,graphiste
