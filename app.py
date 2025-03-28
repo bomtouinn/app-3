@@ -163,61 +163,124 @@ def suivi():
 def liste_suivi():
     return render_template('liste_suivi.html', suivi_data=suivi_data)
 
-
-
 @app.route('/carte', methods=['GET', 'POST'])
 def carte():
-    if request.method == 'POST':
-        # Récupérer la sélection de l'utilisateur
-        entreprise = request.form.get('entreprise')
-        # Création d'une carte centrée sur Calais
-        m = folium.Map(location=[50.5271636,2.2342776], zoom_start=8)
-        # Ajouter des marqueurs et un chemin en fonction de la sélection
-        if entreprise == 'ow':
-            folium.Marker([50.713732012728045, 1.6110945258837055], popup='Opale Web').add_to(m)
-        elif entreprise == 'ccpo':
-            folium.Marker([50.86636033821647, 1.8615185514152992], popup="Communauté de communes Pays d'opale").add_to(m)        
-        elif entreprise == 'elp':
-            folium.Marker([50.59322596797254, 2.4032327528607142], popup="Espace Learning Pro").add_to(m)        
-        elif entreprise == 'air':
-            folium.Marker([50.713273245714944, 1.5813148547195892], popup="Airspire").add_to(m)
-        elif entreprise == 'atm':  
-            folium.Marker([50.95501254810064, 1.915033539391012], popup="Atoucom").add_to(m)
-        elif entreprise == 'dp':
-            folium.Marker([50.94756364052157, 1.8556709240468794], popup="DocPro SARL").add_to(m)
-        elif entreprise == 'ce':
-            folium.Marker([50.951272479327585, 1.8573451663753346], popup="Opale CE").add_to(m)
-        elif entreprise == 'bar':
-            folium.Marker([50.87670391270745, 2.2500746120419253], popup="Théâtre La Barcarolle").add_to(m)
+    # Création d'une carte centrée sur Calais par défaut
+    m = folium.Map(location=[50.5271636, 2.2342776], zoom_start=8)
+    
+    # Définir les coordonnées des entreprises
+    entreprises_coords = {
+        'ow': {'nom': 'Opale Web', 'coords': [50.713732012728045, 1.6110945258837055]},
+        'ccpo': {'nom': "Communauté de communes Pays d'opale", 'coords': [50.86636033821647, 1.8615185514152992]},
+        'elp': {'nom': "Espace Learning Pro", 'coords': [50.59322596797254, 2.4032327528607142]},
+        'air': {'nom': "Airspire", 'coords': [50.713273245714944, 1.5813148547195892]},
+        'atm': {'nom': "Atoucom", 'coords': [50.95501254810064, 1.915033539391012]},
+        'dp': {'nom': "DocPro SARL", 'coords': [50.94756364052157, 1.8556709240468794]},
+        'ce': {'nom': "Opale CE", 'coords': [50.951272479327585, 1.8573451663753346]},
+        'bar': {'nom': "Théâtre La Barcarolle", 'coords': [50.87670391270745, 2.2500746120419253]},
+    }
+    
+    # Correspondance des codes d'entreprises avec les IDs dans la base de données
+    # (à adapter selon votre système)
+    entreprise_codes_to_ids = {
+        'ow': '0',
+        'ccpo': '1',
+        'elp': '2',
+        'air': '3',
+        'atm': '4',
+        'dp': '5',
+        'ce': '6',
+        'bar': '7',
+    }
+    
+    # Récupérer les entreprises réelles
+    entreprises_data = dictionnaire_global.get_entreprises()
+    
+    # Coordonnées connues pour certaines villes en France
+    villes_coords = {
+        'Calais': [50.9513, 1.8587],
+        'Lille': [50.6292, 3.0573],
+        'Dunkerque': [51.0343, 2.3768],
+        'Saint-Quentin': [49.8466, 3.2873],
+        '123 Main St': [50.7133, 1.6111],
+        '456 Elm St': [50.8664, 1.8615],
+        '789 Oak St': [50.5932, 2.4032],
+        '101 Pine St': [50.7133, 1.5813],
+        '202 Maple St': [50.9550, 1.9150],
+    }
+    
+    # Chargement des données pour trouver les associations entre étudiants et entreprises
+    charger_suivi()
+    
+    # Récupérer les données des étudiants
+    etudiants_data = dictionnaire_global.get_etudiants()
     
     if request.method == 'POST':
-        # Récupérer la sélection de l'utilisateur
-        etudiant = request.form.get('etudiant')
-        # Création d'une carte centrée sur Calais
-        m = folium.Map(location=[50.5271636,2.2342776], zoom_start=8)
-        # Ajouter des marqueurs et un chemin en fonction de la sélection
-        if etudiant == 'zoe':
-            folium.Marker([50.713732012728045, 1.6110945258837055], popup='Zoe').add_to(m)
-        elif etudiant == 'tom':
-            folium.Marker([50.86636033821647, 1.8615185514152992], popup="Tom").add_to(m)        
-        elif etudiant == 'juliette':
-            folium.Marker([50.59322596797254, 2.4032327528607142], popup="Juliette").add_to(m)        
-        elif etudiant == 'arthur':
-            folium.Marker([50.713273245714944, 1.5813148547195892], popup="Arthur").add_to(m)
-        elif etudiant == 'mathys':  
-            folium.Marker([50.95501254810064, 1.915033539391012], popup="Mathys").add_to(m)
-        elif etudiant == 'emilie':
-            folium.Marker([50.94756364052157, 1.8556709240468794], popup="Emilie").add_to(m)
-        elif etudiant == 'mario':
-            folium.Marker([50.951272479327585, 1.8573451663753346], popup="Mario").add_to(m)
-        elif etudiant == 'baptiste':
-            folium.Marker([50.87670391270745, 2.2500746120419253], popup="Baptiste").add_to(m)
-
-
-
+        # Récupérer la sélection de l'entreprise
+        entreprise_code = request.form.get('entreprise')
+        
+        # Debug - pour vérifier que les données sont bien chargées
+        print(f"Entreprise sélectionnée: {entreprise_code}")
+        print(f"Nombre d'étudiants chargés: {len(etudiants_data)}")
+        print(f"Nombre de suivis chargés: {len(suivi_data)}")
+        
+        if entreprise_code in entreprises_coords:
+            # Afficher le marqueur de l'entreprise sélectionnée
+            entreprise_info = entreprises_coords[entreprise_code]
+            folium.Marker(
+                entreprise_info['coords'], 
+                popup=entreprise_info['nom'],
+                icon=folium.Icon(color='green', icon='building', prefix='fa')
+            ).add_to(m)
+            
+            # Trouver les étudiants associés à cette entreprise
+            etudiants_entreprise = []
+            for suivi in suivi_data:
+                # Debug pour vérifier les associations
+                print(f"Suivi: entreprise={suivi['entreprise']}, etudiant={suivi['etudiant']}")
+                
+                # Vérifier si l'entreprise correspond à celle sélectionnée
+                if suivi['entreprise'] == entreprise_code:
+                    etudiants_entreprise.append(suivi['etudiant'])
+            
+            print(f"Étudiants trouvés dans cette entreprise: {etudiants_entreprise}")
+            
+            # Pour chaque étudiant associé à cette entreprise
+            for etudiant_id in etudiants_entreprise:
+                # Vérifier que l'ID de l'étudiant est dans les données
+                if etudiant_id in etudiants_data:
+                    etudiant = etudiants_data[etudiant_id]
+                    adresse = etudiant.get('address', '')  # Utiliser get() pour éviter KeyError
+                    nom_complet = f"{etudiant.get('prenom', '')} {etudiant.get('nom', '')}"
+                    
+                    print(f"Traitement de l'étudiant {etudiant_id}: {nom_complet}, adresse: {adresse}")
+                    
+                    # Si l'adresse est dans notre dictionnaire de coordonnées connues
+                    if adresse and adresse in villes_coords:
+                        coords = villes_coords[adresse]
+                        print(f"Coordonnées trouvées pour {adresse}: {coords}")
+                        folium.Marker(
+                            coords, 
+                            popup=f"{nom_complet}<br>{adresse}",
+                            icon=folium.Icon(color='blue', icon='user', prefix='fa')
+                        ).add_to(m)
+                    elif adresse:  # Si l'adresse existe mais n'est pas dans notre dictionnaire
+                        print(f"Adresse inconnue, utilisation des coordonnées par défaut")
+                        folium.Marker(
+                            [50.5272, 2.2343],  # Coordonnées par défaut
+                            popup=f"{nom_complet}<br>{adresse} (position approximative)",
+                            icon=folium.Icon(color='red', icon='question', prefix='fa')
+                        ).add_to(m)
+                    else:
+                        print(f"Pas d'adresse pour cet étudiant")
+                else:
+                    print(f"Étudiant ID {etudiant_id} non trouvé dans la base de données")
 
         m.save('static/carte.html')
-    return render_template('carte.html')
+    
+    # Récupérer les noms complets des entreprises pour l'affichage
+    entreprises_liste = [(code, info['nom']) for code, info in entreprises_coords.items()]
+    return render_template('carte.html', entreprises=entreprises_liste)
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -292,4 +355,4 @@ if __name__ == '__main__':
     charger_utilisateurs()
     charger_suivi()
 
-    app.run(debug=True, ssl_context=('cert.pem','key.pem'))  
+    app.run(debug=True, ssl_context=('cert.pem','key.pem'))
