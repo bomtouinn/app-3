@@ -39,11 +39,11 @@
         {% for entreprise, suivis in entreprises_grouped.items() %}
             <div style="flex: 1 1 calc(33.333% - 20px); border: 1px solid #ccc; padding: 10px; box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1); border-radius: 5px; box-sizing: border-box;">
                 <strong>
-                    <a href="javascript:void(0);" onclick="toggleDetails('{{ entreprise|replace(' ', '_') }}')">
+                    <a href="javascript:void(0);" onclick="toggleDetails('{{ entreprise|replace(' ', '_')|e }}')">
                         Entreprise: {{ entreprise }}
                     </a>
                 </strong>
-                <div id="{{ entreprise|replace(' ', '_') }}" style="display: none; margin-top: 10px;">
+                <div id="{{ entreprise|replace(' ', '_')|e }}" style="display: none; margin-top: 10px;">
                     {% for suivi in suivis %}
                         <div style="margin-bottom: 10px; border-top: 1px solid #ddd; padding-top: 10px;">
                             <p><strong>Étudiant:</strong> {{ suivi.etudiant }}</p>
