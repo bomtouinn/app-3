@@ -146,13 +146,15 @@ def login():
         password = request.form.get('password')
 
         # Vérification des identifiants
-        user = next((u for u in users.values() if u.username == username and u.password == password), None)
-        if user:
+        user = next((u for u in users.values() if u.username == username), None)
+        if user and user.password == password:
             login_user(user)
             flash('Connexion réussie.', 'success')
             return redirect(url_for('index'))
+        elif user:
+            flash('Mot de passe incorrect.', 'danger')
         else:
-            flash('Identifiants invalides.', 'danger')
+            flash('Nom d\'utilisateur introuvable.', 'danger')
 
     return render_template('login.html')
 
@@ -161,7 +163,7 @@ def login():
 def logout():
     logout_user()
     flash('Vous avez été déconnecté.', 'info')
-    return redirect(url_for('login'))
+    return redirect(url_for('index'))
 
 USERS_CSV = 'users.csv'
 
@@ -210,9 +212,4 @@ if __name__ == '__main__':
     charger_suivi()
     app.run(debug=True)
 
-@app.route('/logout')
-@login_required
-def logout():
-    logout_user()
-    flash('Vous avez été déconnecté.', 'info')
-    return redirect(url_for('login'))
+
