@@ -1,0 +1,66 @@
+@font-face {
+  font-family: "Poppins medium";
+  src: url(POPPINS/Poppins-Medium.ttf);
+}
+@font-face {
+  font-family: "Poppins bold";
+  src: url(POPPINS/Poppins-Black.ttf);
+}
+@font-face {
+  font-family: "Poppins light";
+  src: url(POPPINS/Poppins-Light.ttf);
+}
+
+@font-face {
+  font-family: "Poppins semibold";
+  src: url(POPPINS/Poppins-SemiBold.ttf);
+}
+
+
+body {
+    background-color: #8F74C4;
+    padding: 50px;
+    font-family: "Poppins medium";
+    color: #1c1c1c;
+}
+
+form {
+    background-color: white;
+    margin: 0 auto;
+    padding: 20px;
+    border-radius: 5px;
+    max-width: 500px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+form input, form select, form button {
+    width: 100%;
+    margin-bottom: 15px;
+    padding: 10px;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    text-align: left;
+}
+
+
+form button {
+    background-color: #1c1c1c;
+    color: white;
+    border: none;
+    cursor: pointer;
+    text-align: center;
+    font-family: "Poppins medium";
+    font-size: 16px;
+}
+
+form button:hover {
+    background-color: #55525C;
+}
+
+h1 {
+    text-align: center;
+    color: #1c1c1c;
+    font-family: "Poppins semibold";
+    font-size: 2em;
+}
