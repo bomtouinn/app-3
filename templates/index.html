@@ -23,8 +23,48 @@
         {% else %}
             <a href="/login">Connexion</a>
             <a href="/register">Créer un compte</a>
-            <br><br>
-            <a href="/liste-suivi">Liste des suivis</a>
         {% endif %}
     </nav>
+    <h1>Bienvenue sur le site de suivi des entreprise</h1>
+    <h3>Entreprises</h3>
+    <div style="display: flex; flex-wrap: wrap; gap: 20px;">
+        {% set entreprises_grouped = {} %}
+        {% for suivi in suivi_data %}
+            {% if suivi.entreprise not in entreprises_grouped %}
+                {% set entreprises_grouped = entreprises_grouped.update({suivi.entreprise: []}) or entreprises_grouped %}
+            {% endif %}
+            {% set _ = entreprises_grouped[suivi.entreprise].append(suivi) %}
+        {% endfor %}
+
+        {% for entreprise, suivis in entreprises_grouped.items() %}
+            <div style="flex: 1 1 calc(33.333% - 20px); border: 1px solid #ccc; padding: 10px; box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1); border-radius: 5px; box-sizing: border-box;">
+                <strong>
+                    <a href="javascript:void(0);" onclick="toggleDetails('{{ entreprise|replace(' ', '_') }}')">
+                        Entreprise: {{ entreprise }}
+                    </a>
+                </strong>
+                <div id="{{ entreprise|replace(' ', '_') }}" style="display: none; margin-top: 10px;">
+                    {% for suivi in suivis %}
+                        <div style="margin-bottom: 10px; border-top: 1px solid #ddd; padding-top: 10px;">
+                            <p><strong>Étudiant:</strong> {{ suivi.etudiant }}</p>
+                            <p><strong>Type de contrat:</strong> {{ suivi.type_contrat }}</p>
+                            <p><strong>Date d'embauche:</strong> {{ suivi.date_embauche }}</p>
+                            <p><strong>Détails des missions:</strong> {{ suivi.detail_missions }}</p>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+    <script>
+        function toggleDetails(id) {
+            const details = document.getElementById(id);
+            if (details.style.display === "none" || details.style.display === "") {
+                details.style.display = "block";
+            } else {
+                details.style.display = "none";
+            }
+        }
+    </script>
 </body>

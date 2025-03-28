@@ -1,6 +1,3 @@
 id,entreprise,etudiant,type_contrat,date_embauche,detail_missions
-0,,Brioul,,,
-1,Opale Web,Brioul,stage,2025-03-26,lkjfe
-2,Opale Web,Bouin,stage,2025-03-26,developpeur web
-3,Espace Learning Pro,Bouin,stage,2025-03-28,developpeur web
-4,Théâtre La Barcarolle,Outerryck,stage,2025-03-28,graphiste
+62dd6863-a11e-48ce-84a1-c43826220f02,Opale Web,Descharles,alternance,2024-09-02,web design
+fab0b340-60c5-4929-8887-170202d346f4,Opale Web,Brioul,stage,2025-05-05,web design
