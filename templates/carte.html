@@ -1,43 +1,109 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Carte des entreprises</title>
+    <title>Carte des entreprises et leurs étudiants</title>
+    <style>
+        .container {
+            display: flex;
+            flex-direction: column;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .map-container {
+            width: 100%;
+            height: 500px;
+            margin-top: 20px;
+        }
+        .legend {
+            margin-top: 15px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .legend-item {
+            margin: 5px 0;
+        }
+        .color-box {
+            display: inline-block;
+            width: 15px;
+            height: 15px;
+            margin-right: 5px;
+            vertical-align: middle;
+        }
+        .green {
+            background-color: green;
+        }
+        .blue {
+            background-color: blue;
+        }
+        .red {
+            background-color: red;
+        }
+        .debug-info {
+            margin-top: 15px;
+            padding: 10px;
+            background-color: #f8f9fa;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+    </style>
 </head>
 
 <body>
-    <h2>La belle carte</h2>
-    <form method="POST">
-        <label for="entreprise">Choisissez une entreprise :</label>
-        <select name="entreprise" id="entreprise">
-            <option value="">Choisir</option>
-            <option value="ow">Opale Web</option>
-            <option value="ccpo">Communauté de Communes Pays d'Opale</option>
-            <option value="elp">Espace Learning Pro</option>
-            <option value="air">Airspire</option>
-            <option value="atm">Atoucom</option>
-            <option value="dp">DocPro SARL</option>
-            <option value="ce">Opale CE</option>
-            <option value="bar">Théâtre la Barcarolle</option>
-        </select>
+    <div class="container">
+        <h2>Carte des entreprises et leurs étudiants</h2>
+        
         <form method="POST">
-            <label for="etudiant">Choisissez un étudiant :</label>
-            <select name="etudiant" id="etudiant">
-                <option value="">Choisir</option>
-                <option value="zoe">Zoe</option>
-                <option value="tom">Tom</option>
-                <option value="juliette">Juliette</option>
-                <option value="arthur">Arthur</option>
-                <option value="mathys">Mathys</option>
-                <option value="emilie">Emilie</option>
-                <option value="mario">Mario</option>
-                <option value="baptiste">Baptiste</option>
-            </select>
-            <button type="submit">Afficher l'étuediant</button>
+            <div class="form-group">
+                <label for="entreprise">Choisissez une entreprise :</label>
+                <select name="entreprise" id="entreprise">
+                    <option value="">Choisir une entreprise</option>
+                    {% for code, nom in entreprises %}
+                        <option value="{{ code }}">{{ nom }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            
+            <button type="submit">Afficher sur la carte</button>
         </form>
-        <iframe src="{{ url_for('static', filename='carte.html') }}" width="400px%" height="400px"></iframe>
+        
+        <div class="legend">
+            <h3>Légende</h3>
+            <div class="legend-item">
+                <div class="color-box green"></div> Entreprise
+            </div>
+            <div class="legend-item">
+                <div class="color-box blue"></div> Étudiant (adresse connue)
+            </div>
+            <div class="legend-item">
+                <div class="color-box red"></div> Étudiant (adresse approximative)
+            </div>
+        </div>
+        
+        <div class="map-container">
+            <iframe src="{{ url_for('static', filename='carte.html') }}" width="100%" height="100%" frameborder="0"></iframe>
+        </div>
+        
+        <div class="debug-info">
+            <h4>Information sur les données</h4>
+            <p>Vérifiez que vos données de suivi contiennent des associations entre entreprises et étudiants.</p>
+            <p>Format attendu dans suivi.csv: id, entreprise, etudiant, type_contrat, date_embauche, detail_missions</p>
+            <p>Les codes entreprise doivent correspondre aux codes utilisés dans la carte (ow, ccpo, elp, etc.)</p>
+        </div>
+    </div>
+    
+    <!-- Script pour afficher les données de débogage dans la console -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log("Page carte chargée.");
+        });
+    </script>
 </body>
 
 </html>
