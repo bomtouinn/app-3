@@ -28,7 +28,7 @@
     </nav>
     <h1>Bienvenue sur le site de suivi des entreprise</h1>
     <h3>Entreprises</h3>
-    <div style="display: flex; flex-wrap: wrap; gap: 20px;">
+    <div>
         {% set entreprises_grouped = {} %}
         {% for suivi in suivi_data %}
             {% if suivi.entreprise not in entreprises_grouped %}
@@ -38,7 +38,7 @@
         {% endfor %}
 
         {% for entreprise, suivis in entreprises_grouped.items() %}
-            <div style="flex: 1 1 calc(33.333% - 20px); border: 1px solid #ccc; padding: 10px; box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1); border-radius: 5px; box-sizing: border-box;">
+            <div style="border: 1px solid #ccc; padding: 10px; box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1); border-radius: 5px; margin-bottom: 20px;"></div>
                 <strong>
                     <a href="javascript:void(0);" onclick="toggleDetails('{{ entreprise|replace(' ', '_')|e }}')">
                         Entreprise: {{ entreprise }}
