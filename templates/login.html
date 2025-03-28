@@ -4,9 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Connexion</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='form.css') }}">
 </head>
 <body>
-    <h1>Connexion</h1>
+    
 
     <!-- Affichage des messages flash -->
     {% with messages = get_flashed_messages(with_categories=true) %}
@@ -20,6 +21,7 @@
     {% endwith %}
 
     <form method="post">
+        <h1>Connexion</h1>
         <label for="username">Nom d'utilisateur :</label>
         <input type="text" id="username" name="username" required><br><br>
 
@@ -28,6 +30,8 @@
 
         <button type="submit">Se connecter</button>
         <p>Pas encore inscrit ? <a href="/register">Créer un compte</a></p>
+    </br>
+        <a href="/">Annuler</a>
     </form>
 </body>
 </html>
