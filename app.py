@@ -2,6 +2,9 @@ from flask import Flask, render_template, request, redirect, url_for, flash
 import dictionnaire_global
 import csv
 import os
+
+import uuid
+
 from flask_login import LoginManager, UserMixin, login_user, logout_user, login_required, current_user
 
 app = Flask(__name__)
@@ -60,19 +63,14 @@ def etudiant():
         email = request.form.get('email')
         phone = request.form.get('phone')
         promotion = request.form.get('promotion')
-        entreprise = request.form.get('entreprise')
-        date_debut = request.form.get('date_debut')
-        date_fin = request.form.get('date_fin')
 
         dictionnaire_global.ajouter_etudiant(
-            nom, prenom, address, email, phone, promotion, entreprise, date_debut, date_fin
+            nom, prenom, address, email, phone, promotion
         )
 
         return redirect(url_for('index'))
 
-    # Récupérer la liste des entreprises pour le formulaire
-    entreprises = dictionnaire_global.get_entreprises()
-    return render_template('form_etudiant.html', entreprises=entreprises)
+    return render_template('form_etudiant.html')
 
 @app.route('/liste-entreprises')
 def liste_entreprises():
@@ -90,14 +88,23 @@ suivi_data = []
 def charger_suivi():
     global suivi_data
     if os.path.exists(SUIVI_CSV):
-        with open(SUIVI_CSV, mode='r', newline='', encoding='utf-8') as file:
-            reader = csv.DictReader(file)
-            suivi_data = list(reader)
+        try:
+            with open(SUIVI_CSV, mode='r', newline='', encoding='utf-8') as file:
+                reader = csv.DictReader(file)
+                suivi_data = []
+                for row in reader:
+                    # Add ID if it doesn't exist
+                    if 'id' not in row:
+                        row['id'] = str(uuid.uuid4())
+                    suivi_data.append(row)
+        except Exception as e:
+            print(f"Erreur lors du chargement du suivi: {e}")
+            suivi_data = []
 
 def sauvegarder_suivi():
     with open(SUIVI_CSV, mode='w', newline='', encoding='utf-8') as file:
         fieldnames = [
-            'entreprise', 'etudiant', 'type_contrat', 'date_embauche', 'detail_missions'
+            'id', 'entreprise', 'etudiant', 'type_contrat', 'date_embauche', 'detail_missions'
         ]
         writer = csv.DictWriter(file, fieldnames=fieldnames)
         writer.writeheader()
@@ -121,6 +128,7 @@ def suivi():
         detail_missions = request.form.get('detail_missions', '')
 
         suivi_entry = {
+            'id': str(uuid.uuid4()),
             'entreprise': entreprise,
             'etudiant': etudiant,
             'type_contrat': type_contrat,

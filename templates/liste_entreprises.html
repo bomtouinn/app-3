@@ -11,6 +11,7 @@
     <table border="1">
         <thead>
             <tr>
+                <th>ID</th>
                 <th>Nom</th>
                 <th>Adresse</th>
                 <th>Email</th>
@@ -18,9 +19,10 @@
             </tr>
         </thead>
         <tbody>
-            {% for nom, infos in entreprises.items() %}
+            {% for id, infos in entreprises.items() %}
             <tr>
-                <td>{{ nom }}</td>
+                <td>{{ id }}</td>
+                <td>{{ infos.nom }}</td>
                 <td>{{ infos.adresse }}</td>
                 <td>{{ infos.email }}</td>
                 <td>{{ infos.telephone }}</td>
