@@ -70,8 +70,7 @@ def charger_suivi():
 def sauvegarder_suivi():
     with open(SUIVI_CSV, mode='w', newline='', encoding='utf-8') as file:
         fieldnames = [
-            'etudiant', 'entreprise_associee', 'nature_relation',
-            'date_suivi', 'suivi_par', 'objet_suivi', 'canal', 'resume', 'actions'
+            'entreprise', 'etudiant', 'type_contrat', 'date_embauche', 'detail_missions'
         ]
         writer = csv.DictWriter(file, fieldnames=fieldnames)
         writer.writeheader()
@@ -87,37 +86,19 @@ def sauvegarder_suivi():
 @app.route('/suivi', methods=['GET', 'POST'])
 def suivi():
     if request.method == 'POST':
+        entreprise = request.form.get('entreprise', '')
         etudiant = request.form.get('etudiant', '')
-        
-        # Récupérer l'entreprise associée à partir du formulaire caché
-        entreprise_associee = request.form.get('entreprise_associee', '')
-        
-        # Si aucune entreprise n'est fournie dans le formulaire, la récupérer depuis les données de l'étudiant
-        if not entreprise_associee:
-            etudiants = dictionnaire_global.get_etudiants()
-            if etudiant in etudiants and etudiants[etudiant]['entreprise']:
-                entreprise_associee = etudiants[etudiant]['entreprise']
-        
-        nature_relation = request.form.get('nature_relation', '')
-        date_suivi = request.form.get('date_suivi')
-        suivi_par = request.form.get('suivi_par')
-        objet_suivi = request.form.get('objet_suivi')
-        canal = request.form.get('canal')
-        resume = request.form.get('resume')
-        actions = request.form.get('actions')
+        type_contrat = request.form.get('type_contrat', '')
+        date_embauche = request.form.get('date_embauche', '')
+        detail_missions = request.form.get('detail_missions', '')
 
         suivi_entry = {
+            'entreprise': entreprise,
             'etudiant': etudiant,
-            'entreprise_associee': entreprise_associee,
-            'nature_relation': nature_relation,
-            'date_suivi': date_suivi,
-            'suivi_par': suivi_par,
-            'objet_suivi': objet_suivi,
-            'canal': canal,
-            'resume': resume,
-            'actions': actions
+            'type_contrat': type_contrat,
+            'date_embauche': date_embauche,
+            'detail_missions': detail_missions
         }
-        # Assurez-vous que seulement les champs nécessaires sont présents
         suivi_data.append(suivi_entry)
         sauvegarder_suivi()
         return redirect(url_for('liste_suivi'))
