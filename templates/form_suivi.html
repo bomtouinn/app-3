@@ -28,16 +28,16 @@
         <label for="entreprise">Entreprise :</label>
         <select id="entreprise" name="entreprise" required>
             <option value="">Sélectionnez une entreprise</option>
-            {% for nom, infos in entreprises.items() %}
-            <option value="{{ nom }}">{{ nom }}</option>
+            {% for id, infos in entreprises.items() %}
+            <option value="{{ infos.nom }}">{{ infos.nom }}</option>
             {% endfor %}
         </select><br><br>
         
         <label for="etudiant">Étudiant :</label>
         <select id="etudiant" name="etudiant" required>
             <option value="">Sélectionnez un étudiant</option>
-            {% for nom, infos in etudiants.items() %}
-            <option value="{{ nom }}">{{ nom }} - {{ infos.prenom }}</option>
+            {% for id, infos in etudiants.items() %}
+            <option value="{{ infos.nom }}">{{ infos.nom }} - {{ infos.prenom }}</option>
             {% endfor %}
         </select><br><br>
         

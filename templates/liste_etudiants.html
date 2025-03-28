@@ -11,29 +11,25 @@
     <table border="1">
         <thead>
             <tr>
+                <th>ID</th>
                 <th>Nom</th>
                 <th>Prénom</th>
                 <th>Adresse</th>
                 <th>Email</th>
                 <th>Téléphone</th>
                 <th>Promotion</th>
-                <th>Entreprise</th>
-                <th>Date de début</th>
-                <th>Date de fin</th>
             </tr>
         </thead>
         <tbody>
-            {% for nom, infos in etudiants.items() %}
+            {% for id, infos in etudiants.items() %}
             <tr>
-                <td>{{ nom }}</td>
+                <td>{{ id }}</td>
+                <td>{{ infos.nom }}</td>
                 <td>{{ infos.prenom or '' }}</td>
                 <td>{{ infos.address or '' }}</td>
                 <td>{{ infos.email or '' }}</td>
                 <td>{{ infos.phone or '' }}</td>
                 <td>{{ infos.promotion or '' }}</td>
-                <td>{{ infos.entreprise or '' }}</td>
-                <td>{{ infos.date_debut or '' }}</td>
-                <td>{{ infos.date_fin or '' }}</td>
             </tr>
             {% endfor %}
         </tbody>

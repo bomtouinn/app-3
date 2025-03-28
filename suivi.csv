@@ -1,6 +1,6 @@
-entreprise,etudiant,type_contrat,date_embauche,detail_missions
-,Brioul,,,
-Opale Web,Brioul,stage,2025-03-26,lkjfe
-Opale Web,Bouin,stage,2025-03-26,developpeur web
-Espace Learning Pro,Bouin,stage,2025-03-28,developpeur web
-Théâtre La Barcarolle,Outerryck,stage,2025-03-28,graphiste
+id,entreprise,etudiant,type_contrat,date_embauche,detail_missions
+0,,Brioul,,,
+1,Opale Web,Brioul,stage,2025-03-26,lkjfe
+2,Opale Web,Bouin,stage,2025-03-26,developpeur web
+3,Espace Learning Pro,Bouin,stage,2025-03-28,developpeur web
+4,Théâtre La Barcarolle,Outerryck,stage,2025-03-28,graphiste
