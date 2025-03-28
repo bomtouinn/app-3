@@ -28,44 +28,79 @@
     </nav>
     <h1>Bienvenue sur le site de suivi des entreprise</h1>
     <h3>Entreprises</h3>
-    <div style="display: flex; flex-wrap: wrap; gap: 20px;">
-        {% set entreprises_grouped = {} %}
-        {% for suivi in suivi_data %}
-            {% if suivi.entreprise not in entreprises_grouped %}
-                {% set entreprises_grouped = entreprises_grouped.update({suivi.entreprise: []}) or entreprises_grouped %}
-            {% endif %}
-            {% set _ = entreprises_grouped[suivi.entreprise].append(suivi) %}
-        {% endfor %}
-
-        {% for entreprise, suivis in entreprises_grouped.items() %}
-            <div style="flex: 1 1 calc(33.333% - 20px); border: 1px solid #ccc; padding: 10px; box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1); border-radius: 5px; box-sizing: border-box;">
-                <strong>
-                    <a href="javascript:void(0);" onclick="toggleDetails('{{ entreprise|replace(' ', '_')|e }}')">
-                        Entreprise: {{ entreprise }}
-                    </a>
-                </strong>
-                <div id="{{ entreprise|replace(' ', '_')|e }}" style="display: none; margin-top: 10px;">
-                    {% for suivi in suivis %}
-                        <div style="margin-bottom: 10px; border-top: 1px solid #ddd; padding-top: 10px;">
-                            <p><strong>Étudiant:</strong> {{ suivi.etudiant }}</p>
-                            <p><strong>Type de contrat:</strong> {{ suivi.type_contrat }}</p>
-                            <p><strong>Date d'embauche:</strong> {{ suivi.date_embauche }}</p>
-                            <p><strong>Détails des missions:</strong> {{ suivi.detail_missions }}</p>
-                        </div>
-                    {% endfor %}
-                </div>
-            </div>
-        {% endfor %}
+    
+    <!-- Section pour afficher les suivis par entreprise -->
+    <div class="suivis-container">
+        <h3>Suivi des entreprises</h3>
+        {% if suivis_par_entreprise %}
+            {% for entreprise, suivis in suivis_par_entreprise.items() %}
+                <details>
+                    <summary><strong>{{ entreprise }}</strong> ({{ suivis|length }} suivi{% if suivis|length > 1 %}s{% endif %})</summary>
+                    <div class="suivi-details">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Étudiant</th>
+                                    <th>Type de contrat</th>
+                                    <th>Date d'embauche</th>
+                                    <th>Missions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for suivi in suivis %}
+                                    <tr>
+                                        <td>{{ suivi.etudiant }}</td>
+                                        <td>{{ suivi.type_contrat }}</td>
+                                        <td>{{ suivi.date_embauche }}</td>
+                                        <td>{{ suivi.detail_missions }}</td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </details>
+            {% endfor %}
+        {% else %}
+            <p>Aucun suivi d'entreprise disponible pour le moment.</p>
+        {% endif %}
     </div>
-
-    <script>
-        function toggleDetails(id) {
-            const details = document.getElementById(id);
-            if (details.style.display === "none" || details.style.display === "") {
-                details.style.display = "block";
-            } else {
-                details.style.display = "none";
-            }
+    
+    <style>
+        .suivis-container {
+            margin-top: 20px;
+            margin-bottom: 20px;
         }
-    </script>
+        
+        details {
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 5px;
+        }
+        
+        summary {
+            cursor: pointer;
+            padding: 8px;
+            background-color: #f5f5f5;
+        }
+        
+        .suivi-details {
+            padding: 10px;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        th, td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
 </html>
