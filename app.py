@@ -36,7 +36,9 @@ def load_user(user_id):
 
 @app.route('/')
 def index():
-    return render_template('index.html')
+    entreprises = dictionnaire_global.get_entreprises()
+    etudiants = dictionnaire_global.get_etudiants()
+    return render_template('index.html', entreprises=entreprises, etudiants=etudiants, suivi_data=suivi_data)
 
 @app.route('/entreprise', methods=['GET', 'POST'])
 @login_required
@@ -127,6 +129,7 @@ def suivi():
         date_embauche = request.form.get('date_embauche', '')
         detail_missions = request.form.get('detail_missions', '')
 
+        # Ajouter une nouvelle entrée pour chaque suivi, même si l'entreprise est la même
         suivi_entry = {
             'id': str(uuid.uuid4()),
             'entreprise': entreprise,
@@ -136,6 +139,7 @@ def suivi():
             'detail_missions': detail_missions
         }
         suivi_data.append(suivi_entry)
+
         sauvegarder_suivi()
         return redirect(url_for('liste_suivi'))
 
