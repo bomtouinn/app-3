@@ -1,6 +1,13 @@
 id,nom,prenom,address,email,phone,promotion
-0,lihohj,pjsliha,123 Main St,lihohj@example.com,1234567890,2515
-1,Descharles,Zoé,456 Elm St,zoe@example.com,0987654321,2024
-2,Bouin,Tom,789 Oak St,tom@example.com,1122334455,2025
-3,Brioul,Juliette,101 Pine St,juliette@example.com,2233445566,2025
-4,Outerryck,Angel,202 Maple St,angel@example.com,3344556677,2025
+0,lihohj,pjsliha,123 Main St,lihohj@example.com,1234567890.0,2515
+1,Descharles,Zoé,456 Elm St,zoe@example.com,987654321.0,2024
+2,Bouin,Tom,789 Oak St,tom@example.com,1122334455.0,2025
+3,Brioul,Juliette,101 Pine St,juliette@example.com,2233445566.0,2025
+4,Outerryck,Angel,202 Maple St,angel@example.com,3344556677.0,2025
+5,Ducrocq,Mario,,,,2024
+6,Morville,Baptiste,,,,2025
+7,Blanc,Émilie,,,,2025
+8,Morel,Arthur,,,,2025
+9,Vermelle,Mathys,,,,2025
+10,Vincent,Agathe,,,,2025
+11,Golliot,Floriane,,,,2025
