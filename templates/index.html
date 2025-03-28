@@ -1,15 +1,3 @@
-<<<<<<< HEAD
-=======
-<!DOCTYPE html>
-<html lang="fr">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Index</title>
-</head>
-
->>>>>>> fab6858a19735a8106079ae176e0a8779499e7f4
 <body>
     <!-- Affichage des messages flash -->
     {% with messages = get_flashed_messages(with_categories=true) %}
@@ -23,7 +11,6 @@
     {% endwith %}
 
     <nav>
-<<<<<<< HEAD
         {% if current_user.is_authenticated %}
             <a href="/logout">Déconnexion</a>
             <a href="/etudiant">Page étudiant</a>
@@ -33,7 +20,8 @@
             <a href="/liste-etudiants">Liste des étudiants</a>
             <a href="/liste-entreprises">Liste des entreprises</a>
             <a href="/liste-suivi">Liste des suivis</a>
-        {% else %}
+            {% else %}
+            <a href="/carte">Liste des suivis</a>
             <a href="/login">Connexion</a>
             <a href="/register">Créer un compte</a>
         {% endif %}
@@ -80,32 +68,4 @@
             }
         }
     </script>
-</body>
-=======
-        <a href="/etudiant">
-            Page étudiant
-        </a>
-        <a href="/entreprise">
-            Page entreprise
-        </a>
-        <a href="/suivi">
-            Formulaire de suivi
-        </a>
-        <br><br>
-        <a href="/liste-etudiants">
-            Liste des étudiants
-        </a>
-        <a href="/liste-entreprises">
-            Liste des entreprises
-        </a>
-        <a href="/liste-suivi">
-            Liste des suivis
-        </a>
-        <a href="/carte">
-            Voir la carte
-        </a>
-    </nav>
-</body>
-
 </html>
->>>>>>> fab6858a19735a8106079ae176e0a8779499e7f4
