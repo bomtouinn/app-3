@@ -291,4 +291,5 @@ if __name__ == '__main__':
     context = ('local.crt', 'local.key')
     charger_utilisateurs()
     charger_suivi()
-    app.run(debug=True, ssl_context=('cert.pem','key.pem'))
+
+    app.run(debug=True, ssl_context=('cert.pem','key.pem'))  
