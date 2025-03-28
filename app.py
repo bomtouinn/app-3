@@ -2,6 +2,7 @@ from flask import Flask, render_template, request, redirect, url_for
 import dictionnaire_global
 import csv
 import os
+import folium
 
 app = Flask(__name__)
 
@@ -110,6 +111,41 @@ def suivi():
 @app.route('/liste-suivi')
 def liste_suivi():
     return render_template('liste_suivi.html', suivi_data=suivi_data)
+
+
+
+@app.route('/carte', methods=['GET', 'POST'])
+def carte():
+    if request.method == 'POST':
+        # Récupérer la sélection de l'utilisateur
+        destination = request.form.get('destination')
+        # Création d'une carte centrée sur Calais
+        m = folium.Map(location=[50.5271636,2.2342776], zoom_start=8)
+        # Ajouter des marqueurs et un chemin en fonction de la sélection
+        if destination == 'ow':
+            folium.Marker([50.713732012728045, 1.6110945258837055], popup='Opale Web').add_to(m)
+        elif destination == 'ccpo':
+            folium.Marker([50.86636033821647, 1.8615185514152992], popup="Communauté de communes Pays d'opale").add_to(m)        
+        elif destination == 'elp':
+            folium.Marker([50.59322596797254, 2.4032327528607142], popup="Espace Learning Pro").add_to(m)        
+        elif destination == 'air':
+            folium.Marker([50.713273245714944, 1.5813148547195892], popup="Airspire").add_to(m)
+        elif destination == 'atm':  
+            folium.Marker([50.95501254810064, 1.915033539391012], popup="Atoucom").add_to(m)
+        elif destination == 'dp':
+            folium.Marker([50.94756364052157, 1.8556709240468794], popup="DocPro SARL").add_to(m)
+        elif destination == 'ce':
+            folium.Marker([50.951272479327585, 1.8573451663753346], popup="Opale CE").add_to(m)
+        elif destination == 'bar':
+            folium.Marker([50.87670391270745, 2.2500746120419253], popup="Théâtre La Barcarolle").add_to(m)
+
+
+
+
+
+
+        m.save('static/carte.html')
+    return render_template('carte.html')
 
 if __name__ == '__main__':
     charger_suivi()
